@@ -1,0 +1,690 @@
+/* ============================================================
+   HERMANDAD LITERARIA — style.css
+   Estética: Gótico literario oscuro · Tinta y pergamino
+   ============================================================ */
+
+/* ── VARIABLES ── */
+:root {
+  --bg:           #0c0a0f;
+  --surface:      #13101a;
+  --surface2:     #1c1826;
+  --surface3:     #231e30;
+  --border:       #2c2640;
+  --border-dim:   #1e1a2a;
+
+  --gold:         #c8a84b;
+  --gold-dim:     rgba(200, 168, 75, 0.12);
+  --gold-glow:    rgba(200, 168, 75, 0.25);
+  --gold-dark:    #8a6f28;
+
+  --text:         #ece4d0;
+  --text-dim:     #9a8f7c;
+  --text-muted:   #574e42;
+
+  --green:        #5fa86a;
+  --blue:         #5c85b0;
+  --gray:         #6b6275;
+
+  --font-display: 'Playfair Display', Georgia, 'Times New Roman', serif;
+  --font-body:    'EB Garamond', Georgia, 'Times New Roman', serif;
+
+  --radius:       3px;
+  --shadow-book:  4px 6px 20px rgba(0, 0, 0, 0.7), 2px 2px 0 rgba(0,0,0,0.8);
+  --transition:   0.2s ease;
+}
+
+/* ── RESET ── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 17px;
+  line-height: 1.75;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Textura sutil de grano */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.3;
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E");
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+strong {
+  color: var(--text);
+  font-weight: 600;
+}
+
+/* ============================================================
+   HEADER
+   ============================================================ */
+.site-header {
+  position: relative;
+  width: 100%;
+  background: var(--surface);
+}
+
+.banner-image {
+  width: 100%;
+  height: 300px;
+  overflow: hidden;
+  position: relative;
+}
+
+.banner-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.banner-placeholder {
+  width: 100%;
+  height: 100%;
+  background:
+    linear-gradient(160deg,
+      #1a0f2a 0%,
+      #0d1b30 40%,
+      #1a0d20 70%,
+      #0a0a12 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 1px dashed var(--border);
+}
+
+.banner-placeholder span {
+  font-family: var(--font-body);
+  font-style: italic;
+  color: var(--text-muted);
+  font-size: 0.88rem;
+  letter-spacing: 0.06em;
+}
+
+/* Degradado sobre el banner para el título */
+.header-overlay {
+  position: relative;
+  padding: 1.75rem 2.5rem 2rem;
+  background: linear-gradient(to bottom, rgba(12,10,15,0) 0%, var(--bg) 100%);
+  margin-top: -4rem;
+}
+
+.site-title {
+  font-family: var(--font-display);
+  font-size: clamp(2.2rem, 5.5vw, 4rem);
+  font-weight: 900;
+  font-style: italic;
+  letter-spacing: 0.03em;
+  color: var(--gold);
+  text-shadow:
+    0 0 40px var(--gold-glow),
+    0 2px 4px rgba(0,0,0,0.8);
+  line-height: 1.1;
+}
+
+.site-tagline {
+  font-family: var(--font-body);
+  font-style: italic;
+  color: var(--text-muted);
+  font-size: 1rem;
+  letter-spacing: 0.1em;
+  margin-top: 0.3rem;
+}
+
+/* ============================================================
+   PAGE LAYOUT  (sidebar-izq | main | sidebar-der)
+   ============================================================ */
+.page-layout {
+  display: grid;
+  grid-template-columns: 210px 1fr 190px;
+  grid-template-areas: "left main right";
+  gap: 0;
+  max-width: 1440px;
+  margin: 0 auto;
+  align-items: start;
+}
+
+/* ============================================================
+   SIDEBARS (common)
+   ============================================================ */
+.sidebar {
+  border-right: 1px solid var(--border-dim);
+}
+
+.sidebar-right {
+  border-right: none;
+  border-left: 1px solid var(--border-dim);
+}
+
+/* El sticky wrapper dentro de cada sidebar */
+.sidebar-inner {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+  padding: 2rem 1.1rem 2rem 1.25rem;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+
+.sidebar-inner::-webkit-scrollbar {
+  width: 4px;
+}
+.sidebar-inner::-webkit-scrollbar-track {
+  background: transparent;
+}
+.sidebar-inner::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 2px;
+}
+
+.sidebar-heading {
+  font-family: var(--font-display);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 1.1rem;
+  padding-bottom: 0.7rem;
+  border-bottom: 1px solid var(--border);
+}
+
+/* ── Sidebar izquierdo: autores ── */
+.sidebar-left {
+  grid-area: left;
+}
+
+.author-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.author-list a {
+  display: block;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  padding: 0.38rem 0.5rem;
+  border-left: 2px solid transparent;
+  border-radius: 0 var(--radius) var(--radius) 0;
+  transition: color var(--transition), border-color var(--transition), background var(--transition);
+  letter-spacing: 0.02em;
+  font-family: var(--font-body);
+  word-break: break-all;
+}
+
+.author-list a:hover {
+  color: var(--gold);
+  border-left-color: var(--gold);
+  background: var(--gold-dim);
+}
+
+/* ── Sidebar derecho: redes ── */
+.sidebar-right {
+  grid-area: right;
+}
+
+.social-links {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.social-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.65rem 0.85rem;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  font-size: 0.8rem;
+  letter-spacing: 0.05em;
+  font-family: var(--font-body);
+  transition: transform var(--transition), border-color var(--transition), background var(--transition), box-shadow var(--transition);
+  cursor: pointer;
+}
+
+.social-btn svg {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  fill: currentColor;
+}
+
+.social-btn:hover {
+  transform: translateX(-3px);
+}
+
+/* WhatsApp */
+.social-btn.whatsapp        { color: #6abf6a; }
+.social-btn.whatsapp:hover  {
+  background: rgba(106,191,106,0.08);
+  border-color: #6abf6a;
+  box-shadow: 0 0 16px rgba(106,191,106,0.15);
+}
+
+/* Discord */
+.social-btn.discord        { color: #7b93e8; }
+.social-btn.discord:hover  {
+  background: rgba(123,147,232,0.08);
+  border-color: #7b93e8;
+  box-shadow: 0 0 16px rgba(123,147,232,0.15);
+}
+
+/* Google Forms */
+.social-btn.forms        { color: #c07878; }
+.social-btn.forms:hover  {
+  background: rgba(192,120,120,0.08);
+  border-color: #c07878;
+  box-shadow: 0 0 16px rgba(192,120,120,0.15);
+}
+
+/* ============================================================
+   MAIN CONTENT
+   ============================================================ */
+.main-content {
+  grid-area: main;
+  padding: 2.5rem 2.25rem;
+  min-width: 0;
+}
+
+/* ── Intro section ── */
+.intro-section {
+  margin-bottom: 3rem;
+  padding-bottom: 2.5rem;
+  border-bottom: 1px solid var(--border-dim);
+  position: relative;
+}
+
+/* Ornamento decorativo */
+.intro-section::after {
+  content: '✦ ✦ ✦';
+  position: absolute;
+  bottom: -0.7em;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--bg);
+  padding: 0 1rem;
+  color: var(--border);
+  font-size: 0.7rem;
+  letter-spacing: 0.4em;
+}
+
+.intro-cols {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2.5rem;
+  align-items: start;
+}
+
+.section-label {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--gold);
+  margin-bottom: 0.9rem;
+  letter-spacing: 0.01em;
+}
+
+.intro-about p {
+  color: var(--text-dim);
+  font-size: 0.95rem;
+  margin-bottom: 0.9rem;
+}
+
+/* Reglas */
+.rules-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  margin-bottom: 1.25rem;
+}
+
+.rules-list li {
+  display: flex;
+  gap: 0.6rem;
+  align-items: flex-start;
+  font-size: 0.88rem;
+}
+
+.rule-icon {
+  color: var(--gold-dark);
+  font-size: 0.65rem;
+  margin-top: 0.35em;
+  flex-shrink: 0;
+}
+
+.rules-list li > div {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.rules-list strong {
+  font-size: 0.88rem;
+  color: var(--text);
+}
+
+.rules-list p {
+  color: var(--text-dim);
+  font-size: 0.83rem;
+  line-height: 1.45;
+}
+
+/* Dinámicas */
+.dynamics-box {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--gold-dark);
+  padding: 1rem 1.25rem;
+  border-radius: 0 var(--radius) var(--radius) 0;
+}
+
+.dynamics-title {
+  font-family: var(--font-display);
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--gold);
+  margin-bottom: 0.6rem;
+}
+
+.dynamics-box p {
+  font-size: 0.85rem;
+  color: var(--text-dim);
+  margin-bottom: 0.35rem;
+}
+
+.motto {
+  font-style: italic;
+  color: var(--gold) !important;
+  margin-top: 0.5rem !important;
+}
+
+/* ============================================================
+   BOOKS SECTION
+   ============================================================ */
+.books-section {}
+
+.section-title {
+  font-family: var(--font-display);
+  font-size: 1.65rem;
+  font-weight: 700;
+  color: var(--gold);
+  margin-bottom: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.title-deco {
+  font-size: 0.9rem;
+  color: var(--gold-dark);
+}
+
+.title-line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(to right, var(--border), transparent);
+}
+
+/* ── Grid de libros ── */
+.books-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 2rem 1.25rem;
+}
+
+/* ── Tarjeta de libro ── */
+.book-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  cursor: pointer;
+  transition: transform var(--transition);
+}
+
+.book-card:hover {
+  transform: translateY(-5px);
+}
+
+/* Portada */
+.book-cover {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 2 / 3;
+  border-radius: 2px 5px 5px 2px;
+  overflow: hidden;
+  background: var(--surface2);
+  box-shadow: var(--shadow-book);
+
+  /* Efecto spine del libro */
+  border-left: 4px solid var(--border);
+}
+
+.book-cover img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  z-index: 1;
+  transition: transform 0.35s ease;
+  /* Ocultar texto alt en imágenes rotas */
+  color: transparent;
+  font-size: 0;
+}
+
+.book-card:hover .book-cover img {
+  transform: scale(1.04);
+}
+
+/* Fallback cuando la imagen no carga */
+.cover-fallback {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 0.9rem 0.7rem;
+  font-family: var(--font-display);
+  font-size: 0.78rem;
+  font-style: italic;
+  color: var(--text-dim);
+  line-height: 1.4;
+  background:
+    linear-gradient(
+      160deg,
+      var(--surface3) 0%,
+      var(--surface) 100%
+    );
+}
+
+/* Overlay dorado al hacer hover */
+.book-cover::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: var(--gold-glow);
+  opacity: 0;
+  transition: opacity var(--transition);
+  pointer-events: none;
+}
+
+.book-card:hover .book-cover::after {
+  opacity: 1;
+}
+
+/* Info debajo de la portada */
+.book-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.12rem;
+}
+
+.book-info h3 {
+  font-family: var(--font-display);
+  font-size: 0.82rem;
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--text);
+  transition: color var(--transition);
+}
+
+.book-card:hover .book-info h3 {
+  color: var(--gold);
+}
+
+.book-author {
+  font-size: 0.73rem;
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+.book-genre {
+  font-size: 0.68rem;
+  color: var(--text-muted);
+  letter-spacing: 0.02em;
+  line-height: 1.4;
+}
+
+/* Badges de estado */
+.book-status {
+  display: inline-block;
+  align-self: flex-start;
+  font-size: 0.6rem;
+  font-family: var(--font-body);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-weight: 600;
+  padding: 0.18rem 0.45rem;
+  border-radius: 2px;
+  margin-top: 0.25rem;
+}
+
+.book-status.en-proceso {
+  background: rgba(95, 168, 106, 0.12);
+  color: var(--green);
+  border: 1px solid rgba(95, 168, 106, 0.28);
+}
+
+.book-status.concluida {
+  background: rgba(92, 133, 176, 0.12);
+  color: var(--blue);
+  border: 1px solid rgba(92, 133, 176, 0.28);
+}
+
+.book-status.en-creacion {
+  background: rgba(107, 98, 117, 0.15);
+  color: var(--gray);
+  border: 1px solid rgba(107, 98, 117, 0.28);
+}
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+.site-footer {
+  text-align: center;
+  padding: 2.25rem 2rem;
+  border-top: 1px solid var(--border-dim);
+  color: var(--text-muted);
+  font-size: 0.82rem;
+  font-style: italic;
+  letter-spacing: 0.04em;
+}
+
+.footer-deco {
+  color: var(--border);
+  font-style: normal;
+}
+
+.footer-sep {
+  margin: 0 0.5rem;
+  color: var(--border);
+}
+
+/* ============================================================
+   SCROLLBAR GLOBAL
+   ============================================================ */
+::-webkit-scrollbar        { width: 7px; height: 7px; }
+::-webkit-scrollbar-track  { background: var(--bg); }
+::-webkit-scrollbar-thumb  { background: var(--border); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+
+/* Tablet: colapsar sidebar izquierdo */
+@media (max-width: 1024px) {
+  .page-layout {
+    grid-template-columns: 1fr 180px;
+    grid-template-areas: "main right";
+  }
+  .sidebar-left {
+    display: none;
+  }
+}
+
+/* Mobile: layout de una sola columna */
+@media (max-width: 680px) {
+  .page-layout {
+    grid-template-columns: 1fr;
+    grid-template-areas: "main";
+  }
+
+  .sidebar-left,
+  .sidebar-right {
+    display: none;
+  }
+
+  .intro-cols {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .header-overlay {
+    padding: 1rem 1.25rem 1.5rem;
+    margin-top: -3rem;
+  }
+
+  .banner-image {
+    height: 200px;
+  }
+
+  .main-content {
+    padding: 1.75rem 1.25rem;
+  }
+
+  .books-grid {
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    gap: 1.5rem 1rem;
+  }
+}
